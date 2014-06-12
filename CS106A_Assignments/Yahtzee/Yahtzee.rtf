@@ -1,0 +1,879 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red15\green114\blue3;\red255\green255\blue255;\red10\green82\blue135;
+\red217\green217\blue217;\red109\green109\blue109;\red0\green0\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl260
+
+\f0\fs24 \cf2 \cb3 /*\cf0 \
+\'a0\cf2 * File: Yahtzee.java\cf0 \
+\'a0\cf2 * ------------------\cf0 \
+\'a0\cf2 * Name: Javier Palomares\cf0 \
+\'a0\cf2 * Section leader: Lekan Wang\cf0 \
+\'a0\cf2 * This program plays the Yahtzee game.\cf0 \
+\'a0\cf2 */\cf0 \
+\'a0\
+import acm.io.*;\
+import acm.program.*;\
+import acm.util.*;\
+\'a0\
+\pard\pardeftab720\sl260
+
+\f1\b \cf4 \cb5 public
+\f0\b0 \cf0  
+\f1\b \cf4 class
+\f0\b0 \cf0  Yahtzee extends GraphicsProgram implements YahtzeeConstants \{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 This is just great! However, use local variables. I don't believe you need a single instance variable in this program the way you wrote it. Also, you did a GREAT job decomposing. But even so, there's still a few places where you could decompose even further.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  run() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0setupPlayers();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0initDisplay();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0playGame();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Prompts the user for information about the number of players, then sets up the\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * players array and number of players.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  setupPlayers() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0nPlayers = chooseNumberOfPlayers(); \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* Set up the players array by reading names for each player. */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0playerNames = 
+\f1\b \cf4 new
+\f0\b0 \cf0  String[nPlayers];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0  (
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < nPlayers; i++) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* IODialog is a class that allows us to prompt the user for information as a\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 * series of dialog boxes.\'a0 We will use this here to read player names.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0IODialog dialog = getDialog();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0playerNames[i] = dialog.readLine(\cf7 "Enter name for player "\cf0  + (i + 1));\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Prompts the user for a number of players in this game, reprompting until the user\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * enters a valid number.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return The number of players in this game.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0  chooseNumberOfPlayers() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* See setupPlayers() for more details on how IODialog works. */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0IODialog dialog = getDialog();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 while
+\f0\b0 \cf0  (
+\f1\b \cf4 true
+\f0\b0 \cf0 ) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* Prompt the user for a number of players. */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  result = dialog.readInt(\cf7 "Enter number of players"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* If the result is valid, return it. */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (result > 0 && result <= MAX_PLAYERS)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  result;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0dialog.println(\cf7 "Please enter a valid number of players."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Sets up the YahtzeeDisplay associated with this game.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  initDisplay() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display = 
+\f1\b \cf4 new
+\f0\b0 \cf0  YahtzeeDisplay(getGCanvas(), playerNames);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Plays a game of Yahtzee. \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  playGame() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0categoriesChosen = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [nPlayers][N_CATEGORIES];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0lowerScore = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [nPlayers];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0upperScore = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [nPlayers];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0bonus = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [nPlayers];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [nPlayers];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0  (
+\f1\b \cf6 int
+\f0\b0 \cf0  i= 0; i < NUM_ROUNDS; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0playOneRound();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0updateFinalScores();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0declareWinner();\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Plays one round\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  playOneRound()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 ( 
+\f1\b \cf6 int
+\f0\b0 \cf0  player = 0; player < nPlayers; player ++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.printMessage(\cf7 "It's "\cf0  + playerNames[player] +\cf7 "'s turn. Click to Roll."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0rollDice(player);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0getScore(player);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Lets the player roll the dice according to the rules of Yahtzee\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  rollDice(
+\f1\b \cf6 int
+\f0\b0 \cf0  player)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0dice = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [N_DICE];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0initializeDice(player);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0twoMoreRolls();\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Sets up dice after the first roll.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param player is the current player\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  initializeDice(
+\f1\b \cf6 int
+\f0\b0 \cf0  player)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.waitForPlayerToClickRoll(player);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0dice[i] = rgen.nextInt(1,6);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.displayDice(dice);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Give the user two more rolls\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  twoMoreRolls()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  n = 0; n < 2; n++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.printMessage(\cf7 "Select which dice, if any, to roll again. Click \\" Roll Again \\" "\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.waitForPlayerToSelectDice();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  diceIndex = 0; diceIndex < dice.length; diceIndex++)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 ( display.isDieSelected(diceIndex))\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0dice[diceIndex] = rgen.nextInt(1,6);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.displayDice(dice);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Updates the score after the player has selected a category\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param player\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  getScore(
+\f1\b \cf6 int
+\f0\b0 \cf0  player)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.printMessage(\cf7 "Select a category."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  category = display.waitForPlayerToSelectCategory();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 while
+\f0\b0 \cf0 (categoriesChosen[player][category] != 0)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.printMessage(\cf7 "Select a new category!"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0category = display.waitForPlayerToSelectCategory();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0categoriesChosen[player][category]++;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0checkCategory(category, player);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.updateScorecard(category, player, score[player]);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Checks if the dice configuration is valid for the category selected\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param n is the category selected\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param player is the current player\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  checkCategory(
+\f1\b \cf6 int
+\f0\b0 \cf0  n, 
+\f1\b \cf6 int
+\f0\b0 \cf0  player)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [nPlayers];\
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == ONES)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 ( 
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (dice[i] == 1)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0upperScore[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == TWOS)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 ( 
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (dice[i] == 2)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0upperScore[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == THREES) \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 ( 
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (dice[i] == 3)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0upperScore[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == FOURS)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 ( 
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (dice[i] == 4)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0upperScore[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0\'a0\'a0\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == FIVES)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 ( 
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (dice[i] == 5)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0upperScore[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0\'a0\'a0\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == SIXES)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 ( 
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (dice[i] == 6)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0upperScore[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 These can be combined.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == THREE_OF_A_KIND)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (nOfAKind(3, dice))\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 ( 
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0lowerScore[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == FOUR_OF_A_KIND)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (nOfAKind(4, dice))\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 ( 
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0lowerScore[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == FULL_HOUSE)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (isFullHouse(dice))\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += 25;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0lowerScore[player] += 25;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += 25;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == SMALL_STRAIGHT)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (isStraight(dice, 4))\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += 30;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0lowerScore[player] += 30;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += 30;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == LARGE_STRAIGHT)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (isStraight(dice, 5))\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += 40;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0lowerScore[player] += 40;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += 40;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == YAHTZEE)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (nOfAKind(5, dice))\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += 50;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0lowerScore[player] += 50;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += 50;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (n == CHANCE)\{\'a0\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 ( 
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0lowerScore[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += dice[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Checks if there are n dice with the same value by creating \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * a histogram array\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param n is the number of dice with the same value\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param dice is the array of dice\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return true if there are at least n dice with the same value\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  boolean nOfAKind(
+\f1\b \cf6 int
+\f0\b0 \cf0  n, 
+\f1\b \cf6 int
+\f0\b0 \cf0 [] dice)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0 [] histogram = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [6];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  index = dice[i] - 1;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0histogram[index]++;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  histogramMax= getMax(histogram);\
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 ( histogramMax >= n)\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Can shorten to return (histogramMax >= n);\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  
+\f1\b \cf4 true
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  
+\f1\b \cf4 false
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Gets the maximum value in a histogram\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param array is the histogram of dice values\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return the maximum value\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0  getMax(
+\f1\b \cf6 int
+\f0\b0 \cf0 [] array)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  max = 0;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < array.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (array[i] > max)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0max = array[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  max;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Checks whether there is a full house\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param dice is the array of dice values\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return true if there is a full house.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  boolean isFullHouse(
+\f1\b \cf6 int
+\f0\b0 \cf0 [] dice)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  largest = 0;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  secondLargest = 0;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0 [] histogram = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [6];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  index = dice[i] - 1;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0histogram[index]++;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < histogram.length; i ++) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (histogram[i] > largest) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0secondLargest = largest;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0largest = histogram[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\} 
+\f1\b \cf4 else
+\f0\b0 \cf0  
+\f1\b \cf4 if
+\f0\b0 \cf0  (histogram[i] > secondLargest) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0secondLargest = histogram[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (largest == 3 && secondLargest == 2)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  
+\f1\b \cf4 true
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  
+\f1\b \cf4 false
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Checks whether there is a straight\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param dice\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param n is the length of the straight: 4 for short straight and 5 for long\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return true if there is a straight\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  boolean isStraight(
+\f1\b \cf6 int
+\f0\b0 \cf0  [] dice, 
+\f1\b \cf6 int
+\f0\b0 \cf0  n)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0 [] histogram = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [6];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < dice.length; i ++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  index = dice[i] - 1;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0histogram[index]++;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  counter = 0;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  j = 0; j < histogram.length; j ++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (histogram[j] != 0)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0counter++;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\} 
+\f1\b \cf4 else
+\f0\b0 \cf0  \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0counter = 0;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (counter == n)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  
+\f1\b \cf4 true
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  
+\f1\b \cf4 false
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Updates all of the final scores for all of the players\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  updateFinalScores()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0updateScore(UPPER_SCORE, upperScore);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0updateScore(LOWER_SCORE, lowerScore);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0addBonus();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0updateScore(UPPER_BONUS, bonus);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0updateScore(TOTAL, total);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Method to update a score for all of the players\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param category is the category to update\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param scores is the array of score\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  updateScore(
+\f1\b \cf6 int
+\f0\b0 \cf0  category, 
+\f1\b \cf6 int
+\f0\b0 \cf0 [] scores)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  player = 0; player < nPlayers; player++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.updateScorecard(category,player, scores[player]);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Determines whether the bonus should be added.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  addBonus()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  player = 0; player < nPlayers; player++)\{\
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (upperScore[player] > 63)\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Oops...off by a little. This is >=63\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0total[player] += BONUS;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Declares the winner\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  declareWinner()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  index = 0;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  topScore = 0;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0  (
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i < nPlayers; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (total[i] > topScore)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0topScore = total[i];\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0index = i;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0\'a0\'a0\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0display.printMessage(\cf7 "The winner is: "\cf0  + playerNames[index] + \cf7 "!"\cf0 );\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /* Private instance variables */\cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0  nPlayers;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  String[] playerNames;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  YahtzeeDisplay display;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [] dice;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [] score; \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [][] categoriesChosen;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [] lowerScore;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [] upperScore;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [] bonus;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0 [] total;\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 These should ALL be local variables!\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /* Random Generator */\cf0 \
+\'a0\'a0\'a0\'a0RandomGenerator rgen = RandomGenerator.getInstance();\
+\}\
+}

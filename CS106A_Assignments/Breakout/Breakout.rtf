@@ -1,0 +1,861 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red15\green114\blue3;\red255\green255\blue255;\red10\green82\blue135;
+\red109\green109\blue109;\red0\green0\blue255;\red217\green217\blue217;\red251\green0\blue129;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl260
+
+\f0\fs24 \cf2 \cb3 /*\cf0 \
+\'a0\cf2 * File: Breakout.java\cf0 \
+\'a0\cf2 * -------------------\cf0 \
+\'a0\cf2 * Name: Javier Palomares\'a0\'a0 \cf0 \
+\'a0\cf2 * Section Leader: Lekan Wang\cf0 \
+\'a0\cf2 * This file implements Breakout. Score is kept, with each brick being equal to 5 points. \cf0 \
+\'a0\cf2 * Sound was also implemented whenever the ball bounces off the paddle or a brick.\cf0 \
+\'a0\cf2 * \cf0 \
+\'a0\cf2 */\cf0 \
+\'a0\
+import acm.graphics.*;\
+import acm.program.*;\
+import acm.util.*;\
+\'a0\
+import java.applet.*;\
+import java.awt.*;\
+import java.awt.event.*;\
+\'a0\
+\pard\pardeftab720\sl260
+
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 class
+\f0\b0 \cf0  Breakout extends GraphicsProgram \{\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Width and height of application window in pixels */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  APPLICATION_WIDTH = 400;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  APPLICATION_HEIGHT = 600;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Dimensions of game board (usually the same) */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  WIDTH = APPLICATION_WIDTH;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  HEIGHT = APPLICATION_HEIGHT;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Dimensions of the paddle */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  PADDLE_WIDTH = 60;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  PADDLE_HEIGHT = 10;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Offset of the paddle up from the bottom */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  PADDLE_Y_OFFSET = 30;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Number of bricks per row */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  NBRICKS_PER_ROW = 10;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Number of rows of bricks */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  NBRICK_ROWS = 10;\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Total number of bricks\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf5 int
+\f0\b0 \cf0  totalNumBricks= NBRICKS_PER_ROW * NBRICK_ROWS;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Separation between bricks */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  BRICK_SEP = 4;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Width of a brick */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  BRICK_WIDTH =\
+\'a0\'a0\'a0\'a0\'a0\'a0(WIDTH - (NBRICKS_PER_ROW - 1) * BRICK_SEP) / NBRICKS_PER_ROW;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Height of a brick */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  BRICK_HEIGHT = 8;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Radius of the ball in pixels */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  BALL_RADIUS = 10;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Offset of the top brick row from the top */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  BRICK_Y_OFFSET = 70;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Number of turns */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  NTURNS = 3;\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Creates an integer equal to NTURNS to keep track of the game\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf5 int
+\f0\b0 \cf0  numTurns= NTURNS;\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Number of frames per seconds\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  PAUSE_TIME= 1000/60;\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Declares the paddle \cf0 \
+\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  GRect paddle;\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Declares the ball\cf0 \
+\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  GOval ball;\
+\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Declares a string that will display the score\cf0 \
+\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  GLabel score;\
+\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Velocity of the ball\cf0 \
+\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf5 double
+\f0\b0 \cf0  vx;\
+\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf5 double
+\f0\b0 \cf0  vy;\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Min and Max values for vx\cf0 \
+\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 double
+\f0\b0 \cf0  MIN_VELOCITY=1;\
+\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 double
+\f0\b0 \cf0  MAX_VELOCITY=10;\
+\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Initial value for vy\cf0 \
+\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 double
+\f0\b0 \cf0  INITIAL_VY=3;\
+\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Pause time for messages to player\cf0 \
+\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 double
+\f0\b0 \cf0  MESSAGE_TIME=2000;\
+\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Random number generator\cf0 \
+\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  RandomGenerator rgen= RandomGenerator.getInstance();\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Declares sound file \cf0 \
+\'a0\'a0\'a0\'a0\'a0AudioClip bounceClip = MediaTools.loadAudioClip(\cf6 "bounce.au"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /* Method: init() */\cf0 \
+\'a0\'a0\'a0\'a0\cf2 /** Sets up the Breakout program. */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  init() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createRows();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createPaddle();\
+\'a0\'a0\'a0\'a0\}\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /* Method: run() */\cf0 \
+\'a0\'a0\'a0\'a0\cf2 /** Runs the Breakout program. */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  run() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0addMouseListeners();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0endGame();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0addBall();\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Creates the rows of bricks.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createRows()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0Color brickColor=Color.black;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf5 int
+\f0\b0 \cf0  numRow=0; numRow <NBRICK_ROWS; numRow++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (numRow==0 || numRow==1)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0brickColor=Color.RED;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (numRow==2 || numRow==3)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0brickColor=Color.ORANGE;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (numRow==4 || numRow==5)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0brickColor=Color.YELLOW;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (numRow==6 || numRow==7)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0brickColor=Color.GREEN;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (numRow==8 || numRow==9)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0brickColor=Color.CYAN;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createRow(0, BRICK_Y_OFFSET, numRow,brickColor);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * creates a row of bricks\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param x is the x coord. of the top left corner of the leftmost\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * brick\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param y is the y coord. of the top left corner of the leftmost \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * brick\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param numRow is the current row number. Numbering goes from the \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * top row to the bottom row.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createRow(
+\f1\b \cf5 double
+\f0\b0 \cf0  x, 
+\f1\b \cf5 double
+\f0\b0 \cf0  y, 
+\f1\b \cf5 double
+\f0\b0 \cf0  numRow, Color brickColor)\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Sweet decomp.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf5 int
+\f0\b0 \cf0  numBrick=0; numBrick< NBRICKS_PER_ROW; numBrick++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createBrick(BRICK_SEP / 2 + x + numBrick * (BRICK_WIDTH + BRICK_SEP), y + numRow * (BRICK_HEIGHT + BRICK_SEP), brickColor);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Creates a single brick at position (x,y)\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param x is the x coord. of the top left corner\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param y is the y coord. of the top left corner\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createBrick( 
+\f1\b \cf5 double
+\f0\b0 \cf0  x, 
+\f1\b \cf5 double
+\f0\b0 \cf0  y, Color brickColor)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GRect brick= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GRect(x,y,BRICK_WIDTH, BRICK_HEIGHT);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0brick.setFilled(
+\f1\b \cf4 true
+\f0\b0 \cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0brick.setColor(brickColor);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(brick);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Initializes the paddle at the center of the screen. \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createPaddle()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0paddle= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GRect(PADDLE_WIDTH,PADDLE_HEIGHT);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0paddle.setLocation((WIDTH-PADDLE_WIDTH) / 2, HEIGHT-PADDLE_Y_OFFSET);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0paddle.setFilled(
+\f1\b \cf4 true
+\f0\b0 \cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0paddle.setFillColor(Color.BLACK);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(paddle);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Moves the paddle\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  mouseMoved(MouseEvent e)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 double
+\f0\b0 \cf0  x=e.getX();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (x<WIDTH-PADDLE_WIDTH)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0paddle.setLocation(x,HEIGHT-PADDLE_Y_OFFSET);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Initializes the ball and the physics for it.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  addBall()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ball= createBall();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(ball);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0moveBall(ball);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Creates the ball\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return the ball\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  GOval createBall()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ball= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GOval(WIDTH / 2, HEIGHT / 2, BALL_RADIUS, BALL_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ball.setFilled(
+\f1\b \cf4 true
+\f0\b0 \cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ball.setFillColor(Color.BLACK);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  ball;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Simulates the ball dropping with the given parameters.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * and applies game rules\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param ball The ball to drop.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  moveBall(GOval ball)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vx= rgen.nextDouble(MIN_VELOCITY,MAX_VELOCITY);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (rgen.nextBoolean(0.5)) \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vx *= -1;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vy= INITIAL_VY;\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 while
+\f0\b0 \cf0  (isBallOnScreen(ball)) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ball.move(vx, vy);\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 // Checks if ball is above ground\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (!isBallAboveGround(ball)) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0playerMissedBall();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0pause(MESSAGE_TIME);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\} \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 //Checks if the ball has hit left wall.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (!isBallLeftOfLeftWall(ball) && vx <0)\{\
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vx *= -1;\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl260
+\ls1\ilvl0
+\f2 \cf0 \cb3 {\listtext	\'95	}easier just to do vx = -vx;\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 //Checks if the ball has hit right wall\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (!isBallRightOfRightWall(ball) && vx>0)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vx *= -1;\
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Combine this if condition with the last one.\
+if ((leftCondition) || (rightCondition)) \{\
+\}\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 //Checks if the ball has hit the ceiling\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (!isBallUnderCeiling(ball))\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vy *= -1;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0displayScore();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0checkForCollisions();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0endGame();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0pause(PAUSE_TIME);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf8 remove
+\f0\b0 \cf0 (score);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Returns whether the given ball has rolled off the screen.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 *\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param ball The ball to test.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return Whether it's still on the screen horizontally.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  boolean isBallOnScreen(GOval ball) \{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Nice decomp breaking this down into four methods.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0 (ball.getX() < WIDTH && ball.getY()<HEIGHT);\'a0 \
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Returns whether the ball is above ground.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param ball The ball to check.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return true means the ball is above ground\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  boolean isBallAboveGround(GOval ball) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  ball.getY() + 2 * BALL_RADIUS < HEIGHT;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Condition to check whether the ball has hit the left wall \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param ball the ball\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return true means the ball has not hit the left wall\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  boolean isBallLeftOfLeftWall(GOval ball)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  ball.getX()>0;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Condition to check whether the ball has hit the right wall\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param ball the ball \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return true means the ball has not hit the right wall.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  boolean isBallRightOfRightWall(GOval ball)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  ball.getX()+ 2 * BALL_RADIUS<WIDTH;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Condition to check whether the ball has hit the ceiling\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param ball\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return true means the ball has not hit the ceiling\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  boolean isBallUnderCeiling(GOval ball)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  ball.getY()>0;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Checks for a GObject at a position\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param x is the x coord. of the position to check\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param y is the y coord. of the position to check\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return is the GObject at position (x,y)\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  GObject getCollidingObject(
+\f1\b \cf5 double
+\f0\b0 \cf0  x, 
+\f1\b \cf5 double
+\f0\b0 \cf0  y)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GObject collider = getElementAt(x,y);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  collider;\
+\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Checks for a GObject at all four corners of the ball\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return the GObject at any corner of the ball\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  GObject checkAllCorners()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GObject collider;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 double
+\f0\b0 \cf0  x = ball.getX();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 double
+\f0\b0 \cf0  y = ball.getY();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0collider=getCollidingObject(x,y);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (collider==null)\
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0collider=getCollidingObject(x + 2 * BALL_RADIUS, y);\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Spacing around operator. Also, can just return this.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (collider==null)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0collider=getCollidingObject(x + 2 * BALL_RADIUS, y + 2 * BALL_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (collider== null)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0collider=getCollidingObject(x, y + 2 * BALL_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  collider;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Collision for ball, removes bricks\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  checkForCollisions()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GObject collider=checkAllCorners();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (collider== paddle)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (vy>0)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vy *= -1;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0bounceClip.play();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}
+\f1\b \cf4 else
+\f0\b0 \cf0  
+\f1\b \cf4 if
+\f0\b0 \cf0  (collider != null)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf8 remove
+\f0\b0 \cf0 (collider);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vx *= -1;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vy *= -1;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0totalNumBricks--;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0bounceClip.play();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Moves the ball back to the center of the screen if the player\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * does not catch the ball\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  playerMissedBall()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (numTurns>0)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLabel label = 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLabel(\cf6 "Too fast for you? Click to try again."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0label.setFont(\cf6 "Comic Sans -16"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0label.setLocation((WIDTH-label.getWidth())/2, HEIGHT/2);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(label);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0pause(MESSAGE_TIME);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf8 remove
+\f0\b0 \cf0 (label);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (numTurns==0 && !isBallAboveGround(ball))\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 use else if\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf8 remove
+\f0\b0 \cf0 (ball);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLabel label = 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLabel(\cf6 "GAME OVER "\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0label.setFont(\cf6 "Comic Sans -32"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0label.setLocation((WIDTH-label.getWidth())/2, HEIGHT/2);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(label);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0pause(MESSAGE_TIME);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf8 remove
+\f0\b0 \cf0 (label);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0 \
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Moves the ball back to the center of the screen when the player clicks the mouse and \cf0 \
+\'a0\'a0\'a0\'a0\cf2 // is not out of turns.\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  mouseClicked(MouseEvent e) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (numTurns>0 )\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0numTurns--;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (!isBallAboveGround(ball))\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0moveBallBackToCenter();\
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Nice. Most people use waitForClick for this, but this works too!\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Moves the ball back to the center of the screen if the player\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * did not catch the ball.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  moveBallBackToCenter()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ball.setLocation(WIDTH / 2 ,HEIGHT / 2);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Ends the game if the player has won\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  endGame()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (totalNumBricks == 0)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0removeAll();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLabel label = 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLabel( \cf6 "WINNER!!!!"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0label.setFont(\cf6 "Comic Sans-32"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0label.setLocation((WIDTH-label.getWidth())/2, HEIGHT/2);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(label);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0pause(MESSAGE_TIME);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ball.setLocation(WIDTH / 2, HEIGHT / 2);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vx=0;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0vy=0;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * displays the score\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  displayScore()\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 This is awesome.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 int
+\f0\b0 \cf0  points= (NBRICKS_PER_ROW * NBRICK_ROWS - totalNumBricks)* 5;\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Just watch spacing.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLabel(\cf6 "Score:"\cf0  + points);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score.setFont(\cf6 "Comic Sans"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0score.setLocation(0,score.getAscent());\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(score);\
+\'a0\'a0\'a0\'a0\}\
+\}\
+}

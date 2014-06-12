@@ -1,0 +1,122 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red15\green114\blue3;\red255\green255\blue255;\red10\green82\blue135;
+\red217\green217\blue217;\red0\green0\blue255;\red109\green109\blue109;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl260
+
+\f0\fs24 \cf2 \cb3 /*\cf0 \
+\'a0\cf2 * File: HangmanLexicon.java\cf0 \
+\'a0\cf2 * -------------------------\cf0 \
+\'a0\cf2 * Class that contains words to guess in hangman\cf0 \
+\'a0\cf2 */\cf0 \
+\'a0\
+import java.io.*;\
+import java.util.ArrayList;\
+\'a0\
+import acm.util.*;\
+\'a0\
+\pard\pardeftab720\sl260
+
+\f1\b \cf4 \cb5 public
+\f0\b0 \cf0  
+\f1\b \cf4 class
+\f0\b0 \cf0  HangmanLexicon \{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Awesome!\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // File to open to get words to guess\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final String FILE_NAME= \cf6 "HangmanLexicon.txt"\cf0 ;\
+\'a0\'a0\'a0\'a0\cf2 // Declares Array List that will hold the words to guess\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  ArrayList<String> wordList= 
+\f1\b \cf4 new
+\f0\b0 \cf0  ArrayList<String>();\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Constructor of the class. Reads the file as soon as a new instance is created\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  HangmanLexicon()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 try
+\f0\b0 \cf0  \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0BufferedReader br = 
+\f1\b \cf4 new
+\f0\b0 \cf0  BufferedReader(
+\f1\b \cf4 new
+\f0\b0 \cf0  FileReader(FILE_NAME));\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 while
+\f0\b0 \cf0  (
+\f1\b \cf4 true
+\f0\b0 \cf0 ) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String word = br.readLine();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (word == null) \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 break
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0wordList.add(word);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0br.close();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}
+\f1\b \cf4 catch
+\f0\b0 \cf0  (IOException e) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 throw
+\f0\b0 \cf0  
+\f1\b \cf4 new
+\f0\b0 \cf0  ErrorException(e);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Reads the file to give a word to guess\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param index of the word to guess. Index is a random variable passed in Hangman.java\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return the word to guess\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  String getWord(
+\f1\b \cf7 int
+\f0\b0 \cf0  index)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  wordList.get(index);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\
+\pard\pardeftab720\sl260
+\cf2 /** Returns the number of words in the lexicon. */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf7 int
+\f0\b0 \cf0  getWordCount() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf7 int
+\f0\b0 \cf0  wordCount= wordList.size();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  wordCount;\
+\'a0\'a0\'a0\'a0\}\
+\}\
+}

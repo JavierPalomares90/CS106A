@@ -1,0 +1,162 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red255\green255\blue255;\red0\green0\blue0;\red15\green114\blue3;
+\red10\green82\blue135;\red217\green217\blue217;\red0\green0\blue255;\red109\green109\blue109;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+
+\itap1\trowd \taflags0 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt\clvertalbase \clshdrawnil \clwWidth18200\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f0\fs24 \cf0 \cb2 import java.io.*;\
+import java.util.*;\
+\'a0\
+import acm.util.*;\
+\'a0\
+\'a0\
+\'a0\
+\pard\intbl\itap1\pardeftab720\sl260
+\cf4 /*\cf0 \
+\'a0\cf4 * File: NameSurferDataBase.java\cf0 \
+\'a0\cf4 * -----------------------------\cf0 \
+\'a0\cf4 * This class keeps track of the complete database of names.\cf0 \
+\'a0\cf4 * The constructor reads in the database from a file, and\cf0 \
+\'a0\cf4 * the only public method makes it possible to look up a\cf0 \
+\'a0\cf4 * name and get back the corresponding NameSurferEntry.\cf0 \
+\'a0\cf4 * Names are matched independent of case, so that "Eric"\cf0 \
+\'a0\cf4 * and "ERIC" are the same names.\cf0 \
+\'a0\cf4 */\cf0 \
+\'a0\
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f1\b \cf5 public
+\f0\b0 \cf0  
+\f1\b \cf5 class
+\f0\b0 \cf0  NameSurferDataBase implements NameSurferConstants \{\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf4 // Hash map mapping a name to all its ranks.\cf0 \
+\pard\intbl\itap1\pardeftab720\sl260
+\cf0 \cb6 \'a0\'a0\'a0\'a0
+\f1\b \cf5 private
+\f0\b0 \cf0  HashMap<String, NameSurferEntry> nameRanks;\
+\pard\intbl\itap1\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb2 Declare this as just a Map<String, NameSurferEntry>\
+\pard\intbl\itap1\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf4 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf4 * Creates a new NameSurferDataBase and initializes it using the\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf4 * data in the specified file.\'a0 The constructor throws an error\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf4 * exception if the requested file does not exist or if an error\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf4 * occurs as the file is being read.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf4 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf5 public
+\f0\b0 \cf0  NameSurferDataBase(String filename) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0nameRanks = 
+\f1\b \cf5 new
+\f0\b0 \cf0  HashMap<String, NameSurferEntry>();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 try
+\f0\b0 \cf0 \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0BufferedReader br = 
+\f1\b \cf5 new
+\f0\b0 \cf0  BufferedReader(
+\f1\b \cf5 new
+\f0\b0 \cf0  FileReader(filename));\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 while
+\f0\b0 \cf0 (
+\f1\b \cf5 true
+\f0\b0 \cf0 )\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String str = br.readLine();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 if
+\f0\b0 \cf0 (str == null)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 break
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf4 // Converts str to lower case\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String nameToEnter = \cf7 ""\cf0 ;\
+\pard\intbl\itap1\pardeftab720\sl260
+\cf0 \cb6 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 for
+\f0\b0 \cf0 (
+\f1\b \cf8 int
+\f0\b0 \cf0  i = 0; i < str.length(); i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0nameToEnter += Character.toLowerCase(str.charAt(i));\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\pard\intbl\itap1\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb2 Can just use str.toLowerCase()\
+\pard\intbl\itap1\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0NameSurferEntry nameEntry = 
+\f1\b \cf5 new
+\f0\b0 \cf0  NameSurferEntry(nameToEnter);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0nameRanks.put(nameEntry.getName(), nameEntry);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0br.close();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}
+\f1\b \cf5 catch
+\f0\b0 \cf0  (IOException e) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 throw
+\f0\b0 \cf0  
+\f1\b \cf5 new
+\f0\b0 \cf0  ErrorException(e);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf4 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf4 * Returns the NameSurferEntry associated with this name, if one\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf4 * exists.\'a0 If the name does not appear in the database, this\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf4 * method returns null.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf4 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf5 public
+\f0\b0 \cf0  NameSurferEntry findEntry(String name) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String toLookUp = \cf7 ""\cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf4 // converts string to look up to lower case\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 for
+\f0\b0 \cf0  (
+\f1\b \cf8 int
+\f0\b0 \cf0  i = 0; i < name.length(); i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0toLookUp += Character.toLowerCase(name.charAt(i));\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 if
+\f0\b0 \cf0 (!nameRanks.containsKey(toLookUp))\{\
+\pard\intbl\itap1\pardeftab720\sl260
+\cf0 \cb6 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 return
+\f0\b0 \cf0  nameRanks.get(DEFAULT_NAME);\
+\pard\intbl\itap1\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb2 ?? What's this for? Just return null, and ignore it!\
+\pard\intbl\itap1\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 return
+\f0\b0 \cf0  nameRanks.get(toLookUp);\
+\'a0\'a0\'a0\'a0\}\
+\}\cell \lastrow\row
+}

@@ -1,0 +1,110 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red15\green114\blue3;\red255\green255\blue255;\red0\green0\blue0;
+\red10\green82\blue135;\red217\green217\blue217;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+
+\itap1\trowd \taflags0 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalt\clvertalbase \clshdrawnil \clwWidth18200\clftsWidth3 \clbrdrt\brdrnil \clbrdrl\brdrnil \clbrdrb\brdrnil \clbrdrr\brdrnil \clpadl0 \clpadr0 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f0\fs24 \cf2 \cb3 /*\cf0 \
+\'a0\cf2 * File: CollectNewspaperKarel.java\cf0 \
+\'a0\cf2 * --------------------------------\cf0 \
+\'a0\cf2 * At present, the CollectNewspaperKarel subclass collects the \cf0 \
+\'a0\cf2 * newspaper that is outside of Karel's house and returns to the \cf0 \
+\'a0\cf2 * northwest corner of its house.\cf0 \
+\'a0\cf2 */\cf0 \
+\'a0\
+import stanford.karel.*;\
+\'a0\
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f1\b \cf5 public
+\f0\b0 \cf0  
+\f1\b \cf5 class
+\f0\b0 \cf0  CollectNewspaperKarel extends SuperKarel \{\
+\'a0\'a0\'a0\'a0\'a0\
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f1\b \cf5 \cb6 public
+\f0\b0 \cf0  
+\f1\b \cf5 void
+\f0\b0 \cf0  run()\{\
+\pard\intbl\itap1\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Great! Nice decomposition. Great commenting.\
+\pard\intbl\itap1\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0moveToNewspaper();\
+\'a0\'a0\'a0\'a0pickNewspaper();\
+\'a0\'a0\'a0\'a0returntoStart();\
+\'a0\'a0\'a0\'a0turnAround();\
+\}\
+\pard\intbl\itap1\pardeftab720\sl260
+\cf2 /* Moves Karel to the newspaper location.\cf0 \
+\'a0\cf2 * Precondition: Karel starts in the northwest corner of its house\cf0 \
+\'a0\cf2 * facing east.\cf0 \
+\'a0\cf2 * Postcondition: Karel ends at the newspapers location\cf0 \
+\'a0\cf2 */\cf0 \
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f1\b \cf5 private
+\f0\b0 \cf0  
+\f1\b \cf5 void
+\f0\b0 \cf0  moveToNewspaper()\{\
+\'a0\'a0\'a0\'a0
+\f1\b \cf5 while
+\f0\b0 \cf0  (frontIsClear())\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0move();\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0turnRight();\
+\'a0\'a0\'a0\'a0move();\
+\'a0\'a0\'a0\'a0turnLeft();\
+\'a0\'a0\'a0\'a0move();\
+\}\
+\'a0\
+\pard\intbl\itap1\pardeftab720\sl260
+\cf2 /* Karel picks the newspaper (beeper)\cf0 \
+\'a0\cf2 * Precondition; Karel is at the newspaper's location.\cf0 \
+\'a0\cf2 * PostCondtion: Karel does not move location.\cf0 \
+\'a0\cf2 */\cf0 \
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f1\b \cf5 private
+\f0\b0 \cf0  
+\f1\b \cf5 void
+\f0\b0 \cf0  pickNewspaper()\{\
+\'a0\'a0\'a0\'a0pickBeeper();\
+\}\
+\'a0\
+\pard\intbl\itap1\pardeftab720\sl260
+\cf2 /* Karel returns to the northwest corner of its house.\cf0 \
+\'a0\cf2 * Precondition: Karel starts at the newspaper's location.\cf0 \
+\'a0\cf2 * Postcondition: Karel returns to the northwest corner of its house.\cf0 \
+\'a0\cf2 */\cf0 \
+\pard\intbl\itap1\pardeftab720\sl260
+
+\f1\b \cf5 private
+\f0\b0 \cf0  
+\f1\b \cf5 void
+\f0\b0 \cf0  returntoStart()\{\
+\'a0\'a0\'a0\'a0turnAround();\
+\'a0\'a0\'a0\'a0move();\
+\'a0\'a0\'a0\'a0turnRight();\
+\'a0\'a0\'a0\'a0move();\
+\'a0\'a0\'a0\'a0turnLeft();\
+\'a0\'a0\'a0\'a0
+\f1\b \cf5 while
+\f0\b0 \cf0  (frontIsClear())\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0move();\
+\'a0\'a0\'a0\'a0\}\
+\}\
+\}\cell \lastrow\row
+}

@@ -1,0 +1,161 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red15\green114\blue3;\red255\green255\blue255;\red10\green82\blue135;
+\red109\green109\blue109;\red217\green217\blue217;\red0\green0\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl260
+
+\f0\fs24 \cf2 \cb3 /*\cf0 \
+\'a0\cf2 * File: FindRange.java\cf0 \
+\'a0\cf2 * Name: Javier Palomares\cf0 \
+\'a0\cf2 * Section Leader: Lekan Wang\cf0 \
+\'a0\cf2 * --------------------\cf0 \
+\'a0\cf2 * FindRange takes in a sequence of numbers of an undetermined length\cf0 \
+\'a0\cf2 * input by the user. However, the user must follow his final desired \cf0 \
+\'a0\cf2 * number input by the value of SENTINEL to mark the end of the sequence.\cf0 \
+\'a0\cf2 * FindRange will then print the largest and the smallest numbers.\cf0 \
+\'a0\cf2 */\cf0 \
+\'a0\
+import acm.program.*;\
+\'a0\
+\pard\pardeftab720\sl260
+
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 class
+\f0\b0 \cf0  FindRange extends ConsoleProgram \{\
+\'a0\'a0\'a0\'a0\cf2 /* Declares SENTINEL as a constant with value 0.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * SENTINEL will mark the end of the sequence of input numbers.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 double
+\f0\b0 \cf0  SENTINEL=0;\
+\'a0\'a0\'a0\'a0\'a0\
+\pard\pardeftab720\sl260
+\cf0 \cb6 \'a0\'a0\'a0\'a0
+\f1\b \cf5 double
+\f0\b0 \cf0  largestNum;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf5 double
+\f0\b0 \cf0  smallestNum;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf5 double
+\f0\b0 \cf0  n;\
+\'a0\'a0\'a0\'a0\'a0\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Try doing it with these as local variables. It's pretty bad style to make these instance variables. It's very easy to accidentally change them somewhere, and have things go wrong.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  run() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println (\cf7 "The Sentinel is "\cf0 + SENTINEL+ \cf7 "."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0n = readDouble();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0largestNum=n;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0smallestNum=n;\
+\pard\pardeftab720\sl260
+\cf0 \cb6 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 while
+\f0\b0 \cf0 ( n!= SENTINEL )\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Spacing consistency!\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0compareToLargestNum();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0compareToSmallestNum();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0n = readDouble();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0printRange();\
+\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /* Checks if the latest user input number, n, is larger than\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * the previous value of largestNum. If n is, it sets \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * largestNum to that value.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Precondition: n is a real number.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Postcondition: largestNum remains unaltered if n is smaller\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * than the value of largestNum. Else largestNum is set to the\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * value of n.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  compareToLargestNum()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  ( n >largestNum)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0largestNum=n;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /* Checks if the latest user input number, n, is smaller than\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * the previous value of smallestNum. If n is, it sets \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * smallestNum to that value.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Precondition: n is a real number.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Postcondition: smallestNum remains unaltered if n is larger\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * than the value of smallestNum. Else smallestNum is set to the\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * value of n.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  compareToSmallestNum()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  ( n < smallestNum)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0smallestNum=n;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /* Precondition: The user has finished entering a sequence of numbers\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Postcondition: The range of the numbers will be displayed. If no numbers \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * were entered the user will be alerted\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  printRange()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (smallestNum != SENTINEL && largestNum != SENTINEL )\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(\cf7 "smallest:"\cf0  + smallestNum + \cf7 "."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(\cf7 "largest:"\cf0  + largestNum + \cf7 "."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\pard\pardeftab720\sl260
+\cf0 \cb6 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 else
+\f0\b0 \cf0 \{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Often, the "else" is on the same line as the previous brace.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(\cf7 "No numbers have been input."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\}\
+}

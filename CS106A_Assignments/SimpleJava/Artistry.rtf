@@ -1,0 +1,363 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red15\green114\blue3;\red255\green255\blue255;\red10\green82\blue135;
+\red217\green217\blue217;\red109\green109\blue109;\red0\green0\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl260
+
+\f0\fs24 \cf2 \cb3 /*\cf0 \
+\'a0\cf2 * File: Artistry.java\cf0 \
+\'a0\cf2 * Name: Javier Palomares\'a0\'a0 \cf0 \
+\'a0\cf2 * Section Leader: Lekan Wang\'a0\'a0 \cf0 \
+\'a0\cf2 * ==========================================================\cf0 \
+\'a0\cf2 * This program creates a stick figure snowman. Not too artistic,\cf0 \
+\'a0\cf2 * but the user can add "snow" to the painting by clicking the mouse.\cf0 \
+\'a0\cf2 * My program has many static variables which are used to create the correct\cf0 \
+\'a0\cf2 * body proportions.\cf0 \
+\'a0\cf2 */\cf0 \
+import java.awt.Color;\
+import java.awt.event.*;\
+import acm.program.*;\
+import acm.graphics.*;\
+\'a0\
+\pard\pardeftab720\sl260
+
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 class
+\f0\b0 \cf0  Artistry extends GraphicsProgram \{\
+\'a0\'a0\'a0\'a0\'a0\
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  HEAD_RADIUS=50;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  BODY_RADIUS=75;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  EYE_SEPARATION=15;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  EYE_RADIUS= 12;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  NOSE_SIZE= 15;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  MOUTH_WIDTH= 30;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  MOUTH_THICKNESS=10;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  BUTTON_RADIUS=20;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  ARM_LENGTH= 40;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  SNOW_RADIUS = 5;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  EYE_POSITION=1.6;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  NOSE_POSITION= 2.15;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  MOUTH_POSITION= 2.6;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf6 double
+\f0\b0 \cf0  BODY_SIZE=3;\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  run() \{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Keep spacing consistent.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createSnowman();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0addMouseListeners();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0addSnow();\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Creates a stick figure snowman\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createSnowman()\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Love it! Great use of constants and decomposition as well!\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createHead();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createBody();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createArms();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0signName();\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 *\'a0 Creates a head for the snowman\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createHead()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GOval head = 
+\f1\b \cf4 new
+\f0\b0 \cf0  GOval(getWidth()/2-HEAD_RADIUS,HEAD_RADIUS,2*HEAD_RADIUS,2*HEAD_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(head);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createEyes();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createNose();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createMouth();\'a0 \
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Creates eyes for the snowman\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createEyes()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GOval leftEye= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GOval(getWidth()/2-EYE_SEPARATION,EYE_POSITION*HEAD_RADIUS,2*EYE_RADIUS,2*EYE_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GOval rightEye= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GOval(getWidth()/2+EYE_SEPARATION,EYE_POSITION*HEAD_RADIUS,2*EYE_RADIUS,2*EYE_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0leftEye.setFilled(
+\f1\b \cf4 true
+\f0\b0 \cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0rightEye.setFilled(
+\f1\b \cf4 true
+\f0\b0 \cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0leftEye.setFillColor(Color.BLACK);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0rightEye.setFillColor(Color.BLACK);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(leftEye);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(rightEye);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * creates a nose for the snowman\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createNose()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GRect nose= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GRect(getWidth()/2+NOSE_SIZE/2,NOSE_POSITION*HEAD_RADIUS,NOSE_SIZE,NOSE_SIZE);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0nose.setFilled(
+\f1\b \cf4 true
+\f0\b0 \cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0nose.setFillColor(Color.RED);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(nose);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 *\'a0 creates a mouth for the snowman\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createMouth()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GOval mouth= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GOval(getWidth()/2, MOUTH_POSITION*HEAD_RADIUS,MOUTH_WIDTH,MOUTH_THICKNESS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0mouth.setFilled(
+\f1\b \cf4 true
+\f0\b0 \cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0mouth.setFillColor(Color.MAGENTA);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(mouth);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * creates the snowman's body\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createBody()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GOval body= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GOval(getWidth()/2-BODY_RADIUS,BODY_SIZE*HEAD_RADIUS,2*BODY_RADIUS,2*BODY_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(body);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createButtons(3.5*HEAD_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createButtons(4.5*HEAD_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createButtons(5.5*HEAD_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * creates buttons for the snowman's body\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param y is the position of the buttons\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createButtons(
+\f1\b \cf6 double
+\f0\b0 \cf0  y)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GOval button= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GOval(getWidth()/2,y,BUTTON_RADIUS,BUTTON_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0button.setFilled(
+\f1\b \cf4 true
+\f0\b0 \cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0button.setFillColor(Color.BLUE);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(button);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * gives the snowman arms\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createArms()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLine leftArm= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLine(getWidth()/2+BODY_RADIUS,BODY_SIZE*HEAD_RADIUS+BODY_RADIUS,getWidth()/2+BODY_RADIUS+ARM_LENGTH,3*HEAD_RADIUS+BODY_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLine rightArm= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLine(getWidth()/2-BODY_RADIUS,BODY_SIZE*HEAD_RADIUS+BODY_RADIUS,getWidth()/2-BODY_RADIUS-ARM_LENGTH,3*HEAD_RADIUS+BODY_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(leftArm);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(rightArm);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * creates the signature block\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  signName()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLabel signature= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLabel(\cf7 "Artistry by Javier Palomares"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0signature.setFont(\cf7 "Comic Sans-32"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0signature.setLocation(getWidth()-signature.getWidth(), getHeight()-signature.getHeight());\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(signature);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * create a glabel indicating that snow can be added by clicking.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  addSnow()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLabel snow= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLabel(\cf7 "Click to add Snow!"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0snow.setLocation(0,snow.getAscent());\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(snow);\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * adds snow following a mouse click\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  mouseClicked(MouseEvent e) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* Position the circle where the mouse was clicked. */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GOval hole = 
+\f1\b \cf4 new
+\f0\b0 \cf0  GOval(e.getX() - SNOW_RADIUS,\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0e.getY() - SNOW_RADIUS,\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a02 * SNOW_RADIUS,\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a02 * SNOW_RADIUS);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(hole);\
+\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\
+\}\
+}

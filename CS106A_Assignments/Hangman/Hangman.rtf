@@ -1,0 +1,365 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red15\green114\blue3;\red255\green255\blue255;\red10\green82\blue135;
+\red217\green217\blue217;\red109\green109\blue109;\red0\green0\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl260
+
+\f0\fs24 \cf2 \cb3 /*\cf0 \
+\'a0\cf2 * File: Hangman.java\cf0 \
+\'a0\cf2 * ------------------\cf0 \
+\'a0\cf2 * Student Name: Javier Palomares\cf0 \
+\'a0\cf2 * Section Leader: Lekan Wang\cf0 \
+\'a0\cf2 * This program plays the Hangman game \cf0 \
+\'a0\cf2 * \cf0 \
+\'a0\cf2 */\cf0 \
+\'a0\
+import acm.graphics.*;\
+import acm.program.*;\
+import acm.util.*;\
+\'a0\
+import java.awt.*;\
+import java.awt.event.*;\
+import java.util.ArrayList;\
+\'a0\
+\pard\pardeftab720\sl260
+
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 class
+\f0\b0 \cf0  Hangman extends ConsoleProgram \{\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // Number of tries\cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0  numTries=8;\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Make this a local variable!\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\cf2 // Random Generator\cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0RandomGenerator rgen = RandomGenerator.getInstance();\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Make this private\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\cf2 // Declares HangmanCanvas\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  HangmanCanvas canvas;\
+\'a0\'a0\'a0\'a0\cf2 // Declares an Array of the wrong guesses\cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  ArrayList<Character> wrongGuesses = 
+\f1\b \cf4 new
+\f0\b0 \cf0  ArrayList<Character>();\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 In the declaration, it's better if you just have List<Character>. Also, you can store this as a String instead of a list of characters.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\cf2 // Declares an Array of the correct guesses\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  ArrayList<Character> correctGuesses= 
+\f1\b \cf4 new
+\f0\b0 \cf0  ArrayList<Character>();\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Initializes the game\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  init() \{ \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0canvas = 
+\f1\b \cf4 new
+\f0\b0 \cf0  HangmanCanvas();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(canvas);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0canvas.reset();\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\cf2 * Runs the game \cf0 \
+\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  run() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String wordToGuess= getWord();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String displayedWord= hideWord(wordToGuess);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0playTheGame(wordToGuess, displayedWord);\
+\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Rules of the game\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param wordToGuess is the secret word to guess\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param displayedWord is the hidden word shown to the user\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  playTheGame(String wordToGuess, String displayedWord)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 while
+\f0\b0 \cf0 (
+\f1\b \cf4 true
+\f0\b0 \cf0 )\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 char
+\f0\b0 \cf0  ch = getLetter();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0displayedWord = checkForLetterInWord(wordToGuess, displayedWord, ch);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0canvas.displayWord(displayedWord);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (gameIsOver(wordToGuess,displayedWord,numTries))\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 break
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Gets the user's guess\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return the letter the user typed in.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 char
+\f0\b0 \cf0  getLetter()\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Great method--I wish more people decomped like this\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 while
+\f0\b0 \cf0 (
+\f1\b \cf4 true
+\f0\b0 \cf0 )\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String str = readLine(\cf7 "Enter a letter: "\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 while
+\f0\b0 \cf0 (str.length() != 1)\{\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0str = readLine(\cf7 "Enter ONE letter: "\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 char
+\f0\b0 \cf0  ch = str.charAt(0);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (!Character.isLetter(ch))\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0str = readLine(\cf7 "Please enter a letter."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ch = str.charAt(0);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ch = Character.toUpperCase(ch);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  ch;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Will end the game when the user has run out of tries\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * or the user has correctly guessed the word.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param displayedWord is the hidden word shown to the user\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param numTries is the number of tries the user has left\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return true if the game should end\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  boolean gameIsOver(String wordToGuess, String displayedWord, 
+\f1\b \cf6 int
+\f0\b0 \cf0  numTries)\{\
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (!displayedWord.contains(\cf7 "-"\cf0 ) || numTries==0)\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Can just structure this as an if/else if instead of testing for same condition twice.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (!displayedWord.contains(\cf7 "-"\cf0 )) \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(\cf7 "You win!"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (numTries==0)\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(\cf7 "You lose! The word was: "\cf0  + wordToGuess);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  
+\f1\b \cf4 true
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 else
+\f0\b0 \cf0 \{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Don't need this "else"\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  
+\f1\b \cf4 false
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\cf2 * Provides the word to guess by using an instance of Hangman Lexicon\cf0 \
+\'a0\'a0\'a0\'a0\cf2 * @return the word to guess\cf0 \
+\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  String getWord()\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0HangmanLexicon words = 
+\f1\b \cf4 new
+\f0\b0 \cf0  HangmanLexicon();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  numWords= words.getWordCount();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  index= rgen.nextInt(0,numWords);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String word= words.getWord(index);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  word;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\cf2 * Shows the user the number of letters in the word\cf0 \
+\'a0\'a0\'a0\'a0\cf2 * @param str is the word to guess\cf0 \
+\'a0\'a0\'a0\'a0\cf2 * @return a string of underscores the size of the word to guess\cf0 \
+\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  String hideWord(String str)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String result = \cf7 ""\cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  i=0; i< str.length(); i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0result += \cf7 "-"\cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  result;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\cf2 * checks whether the user guess is in the word \cf0 \
+\'a0\'a0\'a0\'a0\cf2 * @param wordToGuess is the word \cf0 \
+\'a0\'a0\'a0\'a0\cf2 * @param displayedWord is the hidden word shown to the user\cf0 \
+\'a0\'a0\'a0\'a0\cf2 * @param ch is the guessed letter\cf0 \
+\'a0\'a0\'a0\'a0\cf2 * @return the word to show to the user\cf0 \
+\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  String checkForLetterInWord(String wordToGuess, String displayedWord, 
+\f1\b \cf6 char
+\f0\b0 \cf0  ch)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String initialWord= displayedWord;\
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf6 int
+\f0\b0 \cf0  i = 0; i<wordToGuess.length(); i++)\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Put an inline comment before each of these blocks of statements to say what its doing.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (ch == wordToGuess.charAt(i))\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0displayedWord = displayedWord.substring(0,i) + ch + displayedWord.substring(i+1,displayedWord.length());\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\pard\pardeftab720\sl260
+\cf0 \cb5 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 // Mark a correct guess\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (!initialWord.equals(displayedWord))\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(\cf7 "That is a correct guess!"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0correctGuesses.add(ch);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 else
+\f0\b0 \cf0 \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(\cf7 "Guess again!"\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0 (!wrongGuesses.contains(ch) && !correctGuesses.contains(ch))\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0numTries--;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0canvas.noteIncorrectGuess(ch, numTries, wrongGuesses, correctGuesses);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(\cf7 "The word now looks like this: "\cf0  + displayedWord);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(\cf7 "You have "\cf0  + numTries + \cf7 " tries left."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  displayedWord;\
+\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\}\'a0\'a0\'a0 \
+}

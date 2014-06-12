@@ -1,0 +1,138 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red15\green114\blue3;\red255\green255\blue255;\red10\green82\blue135;
+\red109\green109\blue109;\red0\green0\blue255;\red217\green217\blue217;\red251\green0\blue7;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl260
+
+\f0\fs24 \cf2 \cb3 /*\cf0 \
+\'a0\cf2 * File: NameSurferEntry.java\cf0 \
+\'a0\cf2 * --------------------------\cf0 \
+\'a0\cf2 * This class represents a single entry in the database.\'a0 Each\cf0 \
+\'a0\cf2 * NameSurferEntry contains a name and a list giving the popularity\cf0 \
+\'a0\cf2 * of that name for each decade stretching back to 1900.\cf0 \
+\'a0\cf2 */\cf0 \
+\'a0\
+import acm.util.*;\
+\'a0\
+import java.io.*;\
+import java.util.*;\
+\'a0\
+\pard\pardeftab720\sl260
+
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 class
+\f0\b0 \cf0  NameSurferEntry implements NameSurferConstants \{\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 // array containing name and ranks as strings\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  String[] nameEntry;\
+\'a0\'a0\'a0\'a0\cf2 // array containg decade ranks as integers\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf5 int
+\f0\b0 \cf0 [] ranks;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Creates a new NameSurferEntry from a data line as it appears\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * in the data file.\'a0 Each line begins with the name, which is\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * followed by integers giving the rank of that name for each\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * decade.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  NameSurferEntry(String line) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String splitter = \cf6 " "\cf0 ;\
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0nameEntry = line.split(splitter);\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 You don't need to store this whole thing. Just store a String name = nameEntry[0]\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ranks = 
+\f1\b \cf4 new
+\f0\b0 \cf0  
+\f1\b \cf5 int
+\f0\b0 \cf0 [NDECADES];\
+\pard\pardeftab720\sl260
+\cf0 \cb7 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0  (
+\f1\b \cf5 int
+\f0\b0 \cf0  i = 1; i < ranks.length; i ++)\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf8 \cb3 Why does this start at i=1? Then you miss the first decade!\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf8 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf8 \
+\pard\pardeftab720\sl260
+\cf0 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0ranks[i] = Integer.parseInt(nameEntry[i + 1]);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Returns the name associated with this entry.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  String getName() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  nameEntry[0];\
+\'a0\'a0\'a0\'a0\}\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Returns the rank associated with an entry for a particular\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * decade.\'a0 The decade value is an integer indicating how many\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * decades have passed since the first year in the database,\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * which is given by the constant START_DECADE.\'a0 If a name does\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * not appear in a decade, the rank value is 0.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf5 int
+\f0\b0 \cf0  getRank(
+\f1\b \cf5 int
+\f0\b0 \cf0  decade) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  ranks[decade];\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Returns a string that makes it easy to see the value of a\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * NameSurferEntry.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  String toString() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0String str = nameEntry[0] + \cf6 " ["\cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf5 int
+\f0\b0 \cf0  i =1; i < nameEntry.length; i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0str += \cf6 " "\cf0  + nameEntry[i] + \cf6 " "\cf0  ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0str += str + \cf6 "]"\cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  str;\
+\'a0\'a0\'a0\'a0\}\
+\}\
+}

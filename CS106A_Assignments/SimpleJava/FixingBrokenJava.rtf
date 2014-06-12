@@ -1,0 +1,137 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red15\green114\blue3;\red255\green255\blue255;\red10\green82\blue135;
+\red217\green217\blue217;\red109\green109\blue109;\red0\green0\blue255;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl260
+
+\f0\fs24 \cf2 \cb3 /* \cf0 \
+\'a0\cf2 * File: FixingBrokenJava.java\cf0 \
+\'a0\cf2 * Name: Javier Palomares\'a0\'a0 \cf0 \
+\'a0\cf2 * Section Leader: Lekan Wang\cf0 \
+\'a0\cf2 * \cf0 \
+\'a0\cf2 * This program does not work as intended.\'a0 It contains both\cf0 \
+\'a0\cf2 * compile-time errors (errors that prevent the compiler from even\cf0 \
+\'a0\cf2 * running the program) and run-time errors (errors where the\cf0 \
+\'a0\cf2 * program does not function as intended).\'a0 Your job is to fix\cf0 \
+\'a0\cf2 * this program so that it works correctly.\'a0 Note that it is *not*\cf0 \
+\'a0\cf2 * sufficient to simply fix the compiler errors; you will need to\cf0 \
+\'a0\cf2 * update the logic as well.\cf0 \
+\'a0\cf2 * \cf0 \
+\'a0\cf2 * This program attempts to read a positive integer from the user,\cf0 \
+\'a0\cf2 * then check whether that integer is prime (whether its only\cf0 \
+\'a0\cf2 * divisors are 1 and itself).\'a0 If so, it prints a message saying\cf0 \
+\'a0\cf2 * that the number is prime; otherwise it says that the number is\cf0 \
+\'a0\cf2 * composite.\cf0 \
+\'a0\cf2 */\cf0 \
+import acm.program.*;\
+\'a0\
+\pard\pardeftab720\sl260
+
+\f1\b \cf4 \cb5 public
+\f0\b0 \cf0  
+\f1\b \cf4 class
+\f0\b0 \cf0  FixingBrokenJava extends ConsoleProgram \{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Great!\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\cf2 /* Reads a number from the user and reports whether or not it\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * is prime.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  run() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* Get the value from the user. */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  value = readPositiveInt();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* Check whether or not it is prime. */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (isPrime(value)) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(value + \cf7 " is prime."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\} 
+\f1\b \cf4 else
+\f0\b0 \cf0  \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(value + \cf7 " is composite."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Given a positive integer, returns whether that integer is\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * prime.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param value The value to test.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return Whether or not the value is prime.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  boolean isPrime(
+\f1\b \cf6 int
+\f0\b0 \cf0  value) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* Try all possible divisors of the number.\'a0 If any of them\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 * cleanly divide the number, we return that the number is\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 * composite.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0  (
+\f1\b \cf6 int
+\f0\b0 \cf0  divisor = 2; divisor < value; divisor++) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (value % divisor == 0) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  
+\f1\b \cf4 false
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  
+\f1\b \cf4 true
+\f0\b0 \cf0 ;\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Reads a positive integer from the user and returns it.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @return A positive integer entered by the user.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf6 int
+\f0\b0 \cf0  readPositiveInt() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* Get an initial value. */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf6 int
+\f0\b0 \cf0  value = readInt(\cf7 "Enter a positive integer: "\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 /* If the value was nonpositive, reprompt the user. */\cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 if
+\f0\b0 \cf0  (value <= 0) \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0println(\cf7 "Please enter a positive integer."\cf0 );\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 return
+\f0\b0 \cf0  value;\
+\'a0\'a0\'a0\'a0\}\
+\}\
+}

@@ -1,0 +1,183 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+{\fonttbl\f0\fmodern\fcharset0 CourierNewPSMT;\f1\fmodern\fcharset0 CourierNewPS-BoldMT;\f2\fswiss\fcharset0 Helvetica;
+}
+{\colortbl;\red255\green255\blue255;\red15\green114\blue3;\red255\green255\blue255;\red10\green82\blue135;
+\red109\green109\blue109;\red217\green217\blue217;}
+\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\sl260
+
+\f0\fs24 \cf2 \cb3 /*\cf0 \
+\'a0\cf2 * File: Pyramid.java\cf0 \
+\'a0\cf2 * Name: Javier Palomares\cf0 \
+\'a0\cf2 * Section Leader: Lekan Wang\cf0 \
+\'a0\cf2 * ------------------\cf0 \
+\'a0\cf2 * Pyramid.java creates a pyramid with rows that have one less\cf0 \
+\'a0\cf2 * brick than the row below it.\cf0 \
+\'a0\cf2 * The brick width, height, and number of bricks in the base are adjustable. \cf0 \
+\'a0\cf2 */\cf0 \
+\'a0\
+import acm.graphics.*;\
+import acm.program.*;\
+\'a0\
+\'a0\
+\pard\pardeftab720\sl260
+
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 class
+\f0\b0 \cf0  Pyramid extends GraphicsProgram \{\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Width of each brick in pixels */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  BRICK_WIDTH = 30;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Height of each brick in pixels */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  BRICK_HEIGHT = 12;\
+\'a0\
+\'a0\'a0\'a0\'a0\cf2 /** Number of bricks in the base of the pyramid */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 static
+\f0\b0 \cf0  final 
+\f1\b \cf5 int
+\f0\b0 \cf0  BRICKS_IN_BASE = 14;\
+\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 public
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  run() \{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createPyramid();\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Creates a pyramid by creating a row of bricks with one less brick than \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * than the row below it.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createPyramid()\{\
+\pard\pardeftab720\sl260
+\cf0 \cb6 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf5 int
+\f0\b0 \cf0  numBricks=BRICKS_IN_BASE;numBricks>0;numBricks--)\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Space things out! Do something like:\uc0\u8232 for (int numBricks = BRICKS_IN_BASE; numBricks > 0; numBricks--) \{\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0brickRow(numBricks);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\'a0\'a0 \
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Creates a row of bricks\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param numBricks is the number of bricks in that row\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb6 \'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  brickRow(
+\f1\b \cf5 int
+\f0\b0 \cf0  numBricks)\{\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Nice decomp.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 double
+\f0\b0 \cf0  leftEdgeOfRow=getWidth()/2-numBricks*BRICK_WIDTH/2;\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf5 double
+\f0\b0 \cf0  bottomRowHeight=getHeight();\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 //i is a counter variable used in the forward loop to create \cf0 \
+\pard\pardeftab720\sl260
+\cf0 \cb6 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\cf2 //many bricks.\cf0 \
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Great commenting in general.\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0
+\f1\b \cf4 for
+\f0\b0 \cf0 (
+\f1\b \cf5 int
+\f0\b0 \cf0  i=0;i<numBricks;i++)\{\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0createBrick(leftEdgeOfRow+i*BRICK_WIDTH,bottomRowHeight-(BRICKS_IN_BASE-numBricks)*BRICK_HEIGHT);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0\
+\'a0\'a0\'a0\'a0\}\
+\'a0\'a0\'a0\'a0\cf2 /**\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * Creates a single brick by drawing 4 lines- top, bottom, left, and \cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * right.\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param x1 is the x position of the bottom left corner of the brick\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 * @param y1 is the y position of the bottom left corner of the brick\cf0 \
+\'a0\'a0\'a0\'a0\'a0\cf2 */\cf0 \
+\'a0\'a0\'a0\'a0
+\f1\b \cf4 private
+\f0\b0 \cf0  
+\f1\b \cf4 void
+\f0\b0 \cf0  createBrick(
+\f1\b \cf5 double
+\f0\b0 \cf0  x1,
+\f1\b \cf5 double
+\f0\b0 \cf0  y1)\{\
+\pard\pardeftab720\sl260
+\cf0 \cb6 \'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLine bottom= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLine(x1,y1,x1+BRICK_WIDTH,y1);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLine left= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLine(x1,y1,x1,y1-BRICK_HEIGHT);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLine right= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLine(x1+BRICK_WIDTH,y1,x1+BRICK_WIDTH,y1-BRICK_HEIGHT);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0GLine top= 
+\f1\b \cf4 new
+\f0\b0 \cf0  GLine(x1,y1-BRICK_HEIGHT,x1+BRICK_WIDTH,y1-BRICK_HEIGHT);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(bottom);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(left);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(right);\
+\'a0\'a0\'a0\'a0\'a0\'a0\'a0\'a0add(top);\
+\pard\pardeftab720\sl260\sa240
+
+\f2 \cf0 \cb3 Oh no! It's a LOT easier if you just use GRects instead of four GLines!\
+\pard\pardeftab720\sl220
+
+\i\fs20 \cf0 Lekan Wang (lekanw)\
+\pard\pardeftab720\sl260
+
+\f0\i0\fs24 \cf0 \
+\'a0\'a0\'a0\'a0\}\
+\}\
+}
